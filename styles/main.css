@@ -66,6 +66,11 @@ html {
      color: rgb(233,50,117);
  }
 
+.links-container:active {
+    color: rgb(233,50,117);
+    background-color: white;   
+}
+
  .container {
      margin: 0 auto;
      max-width: 64rem;
