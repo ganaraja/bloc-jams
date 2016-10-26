@@ -29,6 +29,21 @@ var albumMarconi = {
     ]
 };
 
+var albumRaja = {
+    title: 'The Saxophone',
+    artist: 'Ganaraja',
+    label: 'DM',
+    year: '2016',
+    albumArtUrl: 'assets/images/album_covers/21.png',
+    songs: [
+        { title: 'Hello, Raja?', duration: '1:01' },
+        { title: 'Raja, raja, raja', duration: '5:01' },
+        { title: 'Fits in your rocket', duration: '3:21'},
+        { title: 'Can you launch for me now?', duration: '3:14' },
+        { title: 'Wrong blunder', duration: '2:15'}
+    ]
+};
+
 var createSongRow = function(songNumber, songName, songLength) {
     var template =
        '<tr class="album-view-song-item">'
@@ -63,7 +78,21 @@ var setCurrentAlbum = function(album) {
         albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
     }
 };
+var changeOnClick = function(){
+  var albumTitle = document.getElementsByClassName('album-view-title')[0];
+  titleValue = albumTitle.firstChild.nodeValue;
 
+  if(titleValue == "The Colors"){
+    setCurrentAlbum(albumMarconi);
+  }else if (titleValue == "The Telephone") {
+    setCurrentAlbum(albumRaja);
+  }else if(titleValue == "The Saxophone"){
+    setCurrentAlbum(albumPicasso);
+  }
+  else {
+    setCurrentAlbum(albumPicasso);
+  }
+};
 window.onload = function() {
     setCurrentAlbum(albumPicasso);
 };
