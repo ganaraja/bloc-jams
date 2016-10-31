@@ -79,10 +79,19 @@ window.onload = function() {
   var findParentByClassName = function(element, targetClass) {
       if (element) {
           var currentParent = element.parentElement;
-          while (currentParent.className != targetClass && currentParent.className !== null) {
-              currentParent = currentParent.parentElement;
+          if(currentParent){
+            while (currentParent.className != targetClass && currentParent.className !== null) {
+                currentParent = currentParent.parentElement;
+            }
+            if(currentParent.className != targetClass){
+              return -2;
+            }
+            else {
+              return currentParent;
+            }
+          } else {
+            return -1;
           }
-          return currentParent;
       }
   };
 
@@ -106,9 +115,14 @@ window.onload = function() {
 
   var clickHandler = function(targetElement) {
      var songItem = getSongItem(targetElement);
-     if (currentlyPlayingSong === null) {
-         songItem.innerHTML = pauseButtonTemplate;
-         currentlyPlayingSong = songItem.getAttribute('data-song-number');
+     if (songItem == -1) {
+       alert('No parent found');
+     } else if (songItem == -2) {
+       alert('No parent found with that class name');
+     } else {
+       if (currentlyPlayingSong === null) {
+           songItem.innerHTML = pauseButtonTemplate;
+           currentlyPlayingSong = songItem.getAttribute('data-song-number');
        } else if (currentlyPlayingSong === songItem.getAttribute('data-song-number')) {
            songItem.innerHTML = playButtonTemplate;
            currentlyPlayingSong = null;
@@ -118,6 +132,7 @@ window.onload = function() {
            songItem.innerHTML = pauseButtonTemplate;
            currentlyPlayingSong = songItem.getAttribute('data-song-number');
        }
+     }
   };
 
   songListContainer.addEventListener('mouseover', function(event) {
