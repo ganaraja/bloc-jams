@@ -47,8 +47,13 @@ var createSongRow = function(songNumber, songName, songLength) {
               // Switch from Play -> Pause button to indicate new song is playing.
               setSong(songNumber);
               currentSoundFile.play();
+              updateSeekBarWhileSongPlays();              
               $(this).html(pauseButtonTemplate);
               currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+              var $volumeFill = $('.volume .fill');
+              var $volumeThumb = $('.volume .thumb');
+              $volumeFill.width(currentVolume + '%');
+              $volumeThumb.css({left: currentVolume + '%'});
               updatePlayerBarSong();
           } else if (currentlyPlayingSongNumber === songNumber) {
               if (currentSoundFile.isPaused()) {
