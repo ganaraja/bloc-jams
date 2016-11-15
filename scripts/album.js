@@ -47,7 +47,7 @@ var createSongRow = function(songNumber, songName, songLength) {
               // Switch from Play -> Pause button to indicate new song is playing.
               setSong(songNumber);
               currentSoundFile.play();
-              updateSeekBarWhileSongPlays();              
+              updateSeekBarWhileSongPlays();
               $(this).html(pauseButtonTemplate);
               currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
               var $volumeFill = $('.volume .fill');
@@ -225,6 +225,21 @@ var seek = function(time) {
     }
 }
 
+var filterTimeCode = function(timeInSeconds){
+  var timeInMinutes = Math.floor(parseFloat(timeInSeconds / 60)) ;
+  var leftTimeInSecs = Math.floor(timeInSeconds % 60);
+  leftTimeInSecs = leftTimeInSecs < 10 ? '0'+leftTimeInSecs : leftTimeInSecs;
+  return timeInMinutes + ":" + leftTimeInSecs;
+}
+
+var setCurrentTimeInPlayerBar =function(currentTime){
+  $('.current-time').text(filterTimeCode(currentTime));
+}
+
+var setTotalTimeInPlayerBar =function(totalTime){
+  $('.total-time').text(filterTimeCode(totalTime));
+}
+
 var updateSeekBarWhileSongPlays = function() {
     if (currentSoundFile) {
 
@@ -232,7 +247,8 @@ var updateSeekBarWhileSongPlays = function() {
 
             var seekBarFillRatio = this.getTime() / this.getDuration();
             var $seekBar = $('.seek-control .seek-bar');
-
+            setCurrentTimeInPlayerBar(this.getTime());
+            setTotalTimeInPlayerBar(this.getDuration());
             updateSeekPercentage($seekBar, seekBarFillRatio);
         });
     }
